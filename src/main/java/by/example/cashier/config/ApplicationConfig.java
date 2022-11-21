@@ -7,31 +7,33 @@ import by.example.cashier.service.ValidateService;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Locale;
 import java.util.Properties;
+import java.util.ResourceBundle;
 
 public class ApplicationConfig {
 
     public static String fileDirectory;
+
+    public static String fileFormatParser;
     public static String BANKCARD_CLASS_NAME;
 
     public static MenuType START_MENU;
 
     public static void initialize() {
 
-        //TODO обработать ошибки
-        Properties property = new Properties();
-        FileInputStream fis = null;
+        Properties prop = new Properties();
         try {
-            fis = new FileInputStream("src/main/resources/application.properties");
-            property.load(fis);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            prop.load(ClassLoader.class.getResourceAsStream("/application.properties"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        fileDirectory = property.getProperty("file.path");
 
-        BANKCARD_CLASS_NAME = fileDirectory + "BankCardDao";
+        fileDirectory = prop.getProperty("file.path");
+        fileFormatParser = prop.getProperty("fileFormatParser");
+
+        BANKCARD_CLASS_NAME = fileDirectory +"BankCardDao";
         START_MENU = MenuType.MAIN_MENU;
     }
 

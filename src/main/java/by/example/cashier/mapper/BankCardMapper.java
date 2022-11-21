@@ -2,39 +2,24 @@ package by.example.cashier.mapper;
 
 import by.example.cashier.model.dto.BankCardDto;
 
-import java.util.Arrays;
-import java.util.Objects;
+import java.math.BigDecimal;
 
 public class BankCardMapper {
 
     public String toDTO(BankCardDto entity) {
-        return Objects.isNull(entity)
-                ? null
-                : entity.toString();
-
-
-        /*firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", cardNumber='" + cardNumber + '\'' +
-                ", pinCode=" + pinCode +
-                ", isBlocked=" + isBlocked +
-                ", balance=" + balance +
-                ", blockingDateTime=" + blockingDateTime +
-                ", created=" + created +
-                ", updated=" + updated +
-        */
-
+        return entity.getFirstName() + " "
+                + entity.getLastName() + ""
+                + entity.getCardNumber() + ""
+                + entity.getPinCode() + ""
+                + entity.isBlocked() + ""
+                + entity.getBalance() + ""
+                + entity.getBlockingDateTime() + ""
+                + entity.getCreated() + ""
+                + entity.getUpdated();
     }
 
     public BankCardDto toEntity(String stringDto) {
-        Arrays.stream(stringDto.split(" "))
-                .map(bankCard -> new BankCardDto(
-                        bankCard[0],
-                        bankCard[1],
-                        bankCard[2],
-                        bankCard[3],
-                        bankCard[4]
-                        ))
-
+        final String[] bankCard = stringDto.split(" ");
+        return new BankCardDto(bankCard[0], bankCard[1], bankCard[2], Integer.parseInt(bankCard[3]), new BigDecimal(bankCard[4]));
     }
 }
