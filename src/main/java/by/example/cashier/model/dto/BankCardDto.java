@@ -27,6 +27,7 @@ public class BankCardDto extends AbstractDto {
         this.cardNumber = cardNumber;
         this.pinCode = pinCode;
         this.balance = balance;
+        this.blockingDateTime = LocalDateTime.now();
         this.setCreated(LocalDateTime.now());
         this.setUpdated(LocalDateTime.now());
     }

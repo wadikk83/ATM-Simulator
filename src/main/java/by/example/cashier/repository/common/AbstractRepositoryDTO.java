@@ -25,7 +25,12 @@ public class AbstractRepositoryDTO<E extends AbstractDto> implements CommonRepos
             entity.setId(UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
         }
         List<E> entityList = getAll();
-        entityList.add(entity);
+
+        if (!getById(entity.getId()).isPresent()) entityList.add(entity);
+        else {
+            entityList.remove(getById(entity.getId()).get());
+            entityList.add(entity);
+        }
         parser.write(entityFilename, entityList);
         return Optional.of(entity);
     }
