@@ -15,7 +15,7 @@ public class UnlockCardThread implements Runnable {
     public void run() {
         try {
             repository.getAll().stream()
-                    .filter(e -> e.isBlocked() && (e.getBlockingDateTime().isBefore(now())))
+                    .filter(e -> e.isBlocked() && (e.getBlockingDateTime().isAfter(now())))
                     .forEach(this::restoreAccess);
 
             //sleep 5 minutes

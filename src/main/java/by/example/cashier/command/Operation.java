@@ -8,7 +8,7 @@ public enum Operation {
     VIEW_ALL_CARD("View all bank card"),
     LOGIN("Login"),
     INFO("Info"),
-    DEPOSIT("Deposit"),
+    CREDITING_MONEY("Crediting money"),
     WITHDRAW("Withdraw"),
     ADMIN_MENU("Admin menu"),
     EXIT("Exit");
@@ -22,11 +22,4 @@ public enum Operation {
     public String getTitle() {
         return title;
     }
-
-
-    /*public static Operation getAllowableOperationByOrdinal(Integer i) throws IllegalArgumentException {
-        Operation[] ops = values();
-        if (i > ops.length - 1 || i < 1) throw new IllegalArgumentException();
-        return ops[i];
-    }*/
 }

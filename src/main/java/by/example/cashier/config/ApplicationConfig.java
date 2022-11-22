@@ -1,16 +1,18 @@
 package by.example.cashier.config;
 
 import by.example.cashier.command.MenuType;
+import by.example.cashier.model.dto.BankCardDto;
 import by.example.cashier.repository.BankCardRepositoryDTO;
+import by.example.cashier.service.ATMService;
+import by.example.cashier.service.BankCardService;
 import by.example.cashier.service.ValidateService;
+import by.example.cashier.service.impl.ATMServiceImpl;
+import by.example.cashier.service.impl.BankCardServiceImpl;
+import by.example.cashier.service.impl.ValidateServiceImpl;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Locale;
+import java.math.BigDecimal;
 import java.util.Properties;
-import java.util.ResourceBundle;
 
 public class ApplicationConfig {
 
@@ -33,7 +35,7 @@ public class ApplicationConfig {
         fileDirectory = prop.getProperty("file.path");
         fileFormatParser = prop.getProperty("fileFormatParser");
 
-        BANKCARD_CLASS_NAME = fileDirectory +"BankCardDao";
+        BANKCARD_CLASS_NAME = fileDirectory + "BankCardDao";
         START_MENU = MenuType.MAIN_MENU;
     }
 
@@ -41,7 +43,15 @@ public class ApplicationConfig {
         return new BankCardRepositoryDTO();
     }
 
+    public static BankCardService getBankCardService() {
+        return new BankCardServiceImpl();
+    }
+
     public static ValidateService getValidateService() {
-        return new ValidateService();
+        return new ValidateServiceImpl();
+    }
+
+    public static ATMService getATMService(BankCardDto bankCard) {
+        return new ATMServiceImpl(BigDecimal.valueOf(1_000_000_000), bankCard);
     }
 }

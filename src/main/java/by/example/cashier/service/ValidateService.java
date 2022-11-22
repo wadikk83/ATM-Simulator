@@ -1,54 +1,11 @@
 package by.example.cashier.service;
 
-import lombok.extern.slf4j.Slf4j;
+public interface ValidateService {
 
-import java.util.ResourceBundle;
+    String validateCardNumber();
 
-import static by.example.cashier.Application.locale;
+    Integer validatePositiveNumber();
 
-@Slf4j
-public class ValidateService {
+    Integer validatePinNumber();
 
-    private static final String REGEX_CARD_NUMBER = "^\\d{4}-\\d{4}-\\d{4}-\\d{4}$";
-    private ResourceBundle bundle = ResourceBundle.getBundle("validate", locale);
-
-    public String validateCardNumber() {
-        while (true) {
-            ConsoleService.writeMessage(bundle.getString("specify.card.number"));
-            String numberCard = null;
-            numberCard = ConsoleService.readString();
-
-            if (!numberCard.matches(REGEX_CARD_NUMBER)) {
-                ConsoleService.writeMessage(bundle.getString("try.again.with.details"));
-                continue;
-            }
-
-            return numberCard;
-        }
-    }
-
-    public Integer validatePositiveNumber() {
-        Integer number = -1;
-        do {
-            ConsoleService.writeMessage(bundle.getString("specify.positive.number"));
-            try {
-                number = Integer.parseInt(ConsoleService.readString());
-            } catch (NumberFormatException e) {
-                System.out.println("Number format error!!!");
-            }
-        } while (number < 0);
-
-        System.out.println(number);
-        return number;
-    }
-
-    public Integer validatePinNumber() {
-        Integer pinNumber;
-        do {
-            ConsoleService.writeMessage("\nPlease specify valid pin code - 4 digits.\n");
-            pinNumber = validatePositiveNumber();
-        } while (pinNumber > 9999 || pinNumber < 1111);
-
-        return pinNumber;
-    }
 }

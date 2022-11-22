@@ -1,7 +1,7 @@
 package by.example.cashier.command.basic;
 
 import by.example.cashier.command.Command;
-import by.example.cashier.exсeption.InterruptOperationException;
+import by.example.cashier.service.ATMService;
 import by.example.cashier.service.ConsoleService;
 
 import java.util.ResourceBundle;

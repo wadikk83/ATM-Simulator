@@ -5,7 +5,6 @@ import by.example.cashier.command.admin.AdminMenuCommand;
 import by.example.cashier.command.admin.ViewAllCardCommand;
 import by.example.cashier.command.basic.*;
 import by.example.cashier.config.ApplicationConfig;
-import by.example.cashier.exсeption.InterruptOperationException;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -22,8 +21,8 @@ public class CommandExecutor {
         allKnownCommandsMap = new LinkedHashMap<>();
         allKnownCommandsMap.put(Operation.LOGIN, new LoginCommand());
         allKnownCommandsMap.put(Operation.INFO, new InfoCommand());
-        allKnownCommandsMap.put(Operation.DEPOSIT, new DepositCommand());
-        allKnownCommandsMap.put(Operation.WITHDRAW, new WithdrawCommand());
+        allKnownCommandsMap.put(Operation.CREDITING_MONEY, new CreditingMoneyCommand());
+        allKnownCommandsMap.put(Operation.WITHDRAW, new WithdrawMoneyCommand());
         allKnownCommandsMap.put(Operation.ADMIN_MENU, new AdminMenuCommand());
         allKnownCommandsMap.put(Operation.EXIT, new ExitCommand());
 
@@ -33,7 +32,7 @@ public class CommandExecutor {
         allKnownAdminCommandsMap.put(Operation.EXIT, new ExitCommand());
     }
 
-    public static final Operation getOperationByMenuIndex(int index) {
+    public static Operation getOperationByMenuIndex(int index) {
         Object[] ops;
         if (ApplicationConfig.START_MENU == MenuType.MAIN_MENU) {
             ops = allKnownCommandsMap.keySet().toArray();
@@ -45,7 +44,7 @@ public class CommandExecutor {
         else return (Operation) ops[index - 1];
     }
 
-    public static final void execute(Operation operation) {
+    public static void execute(Operation operation) {
         if (ApplicationConfig.START_MENU == MenuType.MAIN_MENU) allKnownCommandsMap.get(operation).execute();
         else allKnownAdminCommandsMap.get(operation).execute();
     }

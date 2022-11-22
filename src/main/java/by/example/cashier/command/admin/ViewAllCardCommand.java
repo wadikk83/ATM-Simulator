@@ -2,7 +2,6 @@ package by.example.cashier.command.admin;
 
 import by.example.cashier.command.Command;
 import by.example.cashier.config.ApplicationConfig;
-import by.example.cashier.exсeption.InterruptOperationException;
 import by.example.cashier.model.dto.BankCardDto;
 import by.example.cashier.repository.BankCardRepositoryDTO;
 import by.example.cashier.service.ConsoleService;

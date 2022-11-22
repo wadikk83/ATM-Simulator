@@ -46,7 +46,7 @@ public class ConsoleService {
     public static String readString() {
         try {
             String string = bufferedReader.readLine();
-            if (string.toUpperCase().equalsIgnoreCase("EXIT")) CommandExecutor.execute(Operation.EXIT);
+            //if (string.toUpperCase().equalsIgnoreCase("EXIT")) throw new InterruptOperationException();
             return string;
         } catch (IOException e) {
             System.out.println("IO error");
@@ -80,8 +80,11 @@ public class ConsoleService {
      * print bye-bye to console
      */
     public static void printExitMessage() {
-
-        //writeMessage(resource.getString("the.end"));
         writeMessage("the.end");
+    }
+
+    public static void printOperationResult(Boolean result) {
+        if (result) System.out.println("Operation was successful");
+        else System.out.println("Operation failed");
     }
 }

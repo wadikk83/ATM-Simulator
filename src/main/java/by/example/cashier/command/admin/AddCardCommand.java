@@ -14,7 +14,7 @@ import static by.example.cashier.Application.locale;
 
 public class AddCardCommand implements Command {
 
-    ValidateService validateService = ApplicationConfig.getValidateService();
+    ValidateService validateServiceImpl = ApplicationConfig.getValidateService();
     BankCardRepositoryDTO repository = ApplicationConfig.getBankCardRepository();
 
     private ResourceBundle bundle = ResourceBundle.getBundle("add-card", locale);
@@ -32,13 +32,13 @@ public class AddCardCommand implements Command {
         String lastName = ConsoleService.readString();
 
         //ConsoleService.writeMessage(bundle.getString("card.name"));
-        String cardNumber = validateService.validateCardNumber();
+        String cardNumber = validateServiceImpl.validateCardNumber();
 
         //ConsoleService.writeMessage(bundle.getString("pin.name"));
-        Integer pin = validateService.validatePinNumber();
+        Integer pin = validateServiceImpl.validatePinNumber();
 
         ConsoleService.writeMessage(bundle.getString("balance.name"));
-        Integer balance = validateService.validatePositiveNumber();
+        Integer balance = validateServiceImpl.validatePositiveNumber();
 
 
         repository.save(new BankCardDto(firstName, lastName, cardNumber, pin, new BigDecimal(balance)));
