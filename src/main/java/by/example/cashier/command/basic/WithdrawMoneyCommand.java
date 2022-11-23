@@ -8,31 +8,37 @@ import by.example.cashier.service.ATMService;
 import by.example.cashier.service.ConsoleService;
 import by.example.cashier.service.ValidateService;
 
+import java.util.ResourceBundle;
+
 import static by.example.cashier.Application.currentBankCard;
+import static by.example.cashier.Application.locale;
 
 public class WithdrawMoneyCommand implements Command {
+
+    private final ConsoleService consoleService = ApplicationConfig.getConsoleService();
+    private final ValidateService validateService = ApplicationConfig.getValidateService();
+    private final ResourceBundle bundle = ResourceBundle.getBundle("withdraw-money", locale);
+
     @Override
     public void execute() {
         ATMService atmService = ApplicationConfig.getATMService(currentBankCard);
-        ValidateService validateService = ApplicationConfig.getValidateService();
 
         if (atmService.operationIsPossible()) {
-            ConsoleService.writeMessage("Withdrawal from card balance");
-            ConsoleService.writeMessage("Please enter the amount");
+            consoleService.writeMessage(bundle.getString("general.message"));
+            consoleService.writeMessage(bundle.getString("general2.message"));
             Integer amount = validateService.validatePositiveNumber();
 
             final Boolean operationResult;
             try {
                 operationResult = atmService.WithdrawMoney(amount.longValue());
-                ConsoleService.printOperationResult(operationResult);
+                consoleService.printOperationResult(operationResult);
             } catch (NotEnoughMoneyException e) {
-                ConsoleService.writeMessage(e.getMessage());
+                consoleService.writeMessage(e.getMessage());
             } catch (CardNotFoundException e) {
-                ConsoleService.writeMessage("Bank card is not register");
+                consoleService.writeMessage(bundle.getString("error.message"));
             }
-
         } else {
-            ConsoleService.writeMessage("Bank card is not register");
+            consoleService.writeMessage(bundle.getString("error.message"));
         }
     }
 }

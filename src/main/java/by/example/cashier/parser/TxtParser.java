@@ -40,13 +40,13 @@ public class TxtParser implements Parser<BankCardDto> {
         try {
             if (Files.exists(path)) dataFromFile = Files.readAllLines(path);
             else {
-                //ConsoleService.writeMessage("Data file does not exist. A new file will be created");
+                //ConsoleServiceImpl.writeMessage("Data file does not exist. A new file will be created");
                 log.info("Data file does not exist. A new file will be created");
                 Files.createFile(path);
             }
         } catch (IOException e) {
             log.error("Error read file");
-            //ConsoleService.writeMessage("Error read file");
+            //ConsoleServiceImpl.writeMessage("Error read file");
             throw new RuntimeException(e);
         }
 

@@ -1,5 +1,6 @@
 package by.example.cashier.service.impl;
 
+import by.example.cashier.config.ApplicationConfig;
 import by.example.cashier.service.ConsoleService;
 import by.example.cashier.service.ValidateService;
 import lombok.extern.slf4j.Slf4j;
@@ -11,17 +12,21 @@ import static by.example.cashier.Application.locale;
 @Slf4j
 public class ValidateServiceImpl implements ValidateService {
 
-    private static final String REGEX_CARD_NUMBER = "^\\d{4}-\\d{4}-\\d{4}-\\d{4}$";
-    private ResourceBundle bundle = ResourceBundle.getBundle("validate", locale);
+    private final ResourceBundle bundle = ResourceBundle.getBundle("validate", locale);
+
+    private final String REGEX_CARD_NUMBER = "^\\d{4}-\\d{4}-\\d{4}-\\d{4}$";
+
+    private final ConsoleService consoleService = ApplicationConfig.getConsoleService();
+
     @Override
     public String validateCardNumber() {
         while (true) {
-            ConsoleService.writeMessage(bundle.getString("specify.card.number"));
+            consoleService.writeMessage(bundle.getString("specify.card.number"));
             String numberCard = null;
-            numberCard = ConsoleService.readString();
+            numberCard = consoleService.readString();
 
             if (!numberCard.matches(REGEX_CARD_NUMBER)) {
-                ConsoleService.writeMessage(bundle.getString("try.again.with.details"));
+                consoleService.writeMessage(bundle.getString("try.again.with.details"));
                 continue;
             }
 
@@ -32,9 +37,9 @@ public class ValidateServiceImpl implements ValidateService {
     public Integer validatePositiveNumber() {
         Integer number = -1;
         do {
-            ConsoleService.writeMessage(bundle.getString("specify.positive.number"));
+            consoleService.writeMessage(bundle.getString("specify.positive.number"));
             try {
-                number = Integer.parseInt(ConsoleService.readString());
+                number = Integer.parseInt(consoleService.readString());
             } catch (NumberFormatException e) {
                 System.out.println("Number format error!!!");
             }
@@ -47,7 +52,7 @@ public class ValidateServiceImpl implements ValidateService {
     public Integer validatePinNumber() {
         Integer pinNumber;
         do {
-            ConsoleService.writeMessage("\nPlease specify valid pin code - 4 digits.\n");
+            consoleService.writeMessage("\nPlease specify valid pin code - 4 digits.\n");
             pinNumber = validatePositiveNumber();
         } while (pinNumber > 9999 || pinNumber < 1111);
 

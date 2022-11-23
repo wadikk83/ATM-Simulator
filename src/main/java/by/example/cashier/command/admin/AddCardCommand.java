@@ -14,37 +14,34 @@ import static by.example.cashier.Application.locale;
 
 public class AddCardCommand implements Command {
 
-    ValidateService validateServiceImpl = ApplicationConfig.getValidateService();
-    BankCardRepositoryDTO repository = ApplicationConfig.getBankCardRepository();
-
-    private ResourceBundle bundle = ResourceBundle.getBundle("add-card", locale);
+    private final ValidateService validateServiceImpl = ApplicationConfig.getValidateService();
+    private final BankCardRepositoryDTO repository = ApplicationConfig.getBankCardRepository();
+    private final ConsoleService consoleService = ApplicationConfig.getConsoleService();
+    private final ResourceBundle bundle = ResourceBundle.getBundle("add-card", locale);
 
     @Override
     public void execute() {
 
-        ConsoleService.writeMessage("");
-        ConsoleService.writeMessage(bundle.getString("general.message"));
+        consoleService.writeMessage("");
+        consoleService.writeMessage(bundle.getString("general.message"));
 
-        ConsoleService.writeMessage(bundle.getString("first.name"));
-        String firstName = ConsoleService.readString();
+        consoleService.writeMessage(bundle.getString("first.name"));
+        String firstName = consoleService.readString();
 
-        ConsoleService.writeMessage(bundle.getString("last.name"));
-        String lastName = ConsoleService.readString();
+        consoleService.writeMessage(bundle.getString("last.name"));
+        String lastName = consoleService.readString();
 
-        //ConsoleService.writeMessage(bundle.getString("card.name"));
         String cardNumber = validateServiceImpl.validateCardNumber();
 
-        //ConsoleService.writeMessage(bundle.getString("pin.name"));
         Integer pin = validateServiceImpl.validatePinNumber();
 
-        ConsoleService.writeMessage(bundle.getString("balance.name"));
+        consoleService.writeMessage(bundle.getString("balance.name"));
         Integer balance = validateServiceImpl.validatePositiveNumber();
-
 
         repository.save(new BankCardDto(firstName, lastName, cardNumber, pin, new BigDecimal(balance)));
 
-        ConsoleService.writeMessage(bundle.getString("positive.message"));
-        ConsoleService.writeMessage("===============================================================");
-        ConsoleService.writeMessage("");
+        consoleService.writeMessage(bundle.getString("positive.message"));
+        consoleService.writeMessage("===============================================================");
+        consoleService.writeMessage("");
     }
 }

@@ -6,9 +6,15 @@ import by.example.cashier.exсeption.CardNotFoundException;
 import by.example.cashier.service.ATMService;
 import by.example.cashier.service.ConsoleService;
 
+import java.util.ResourceBundle;
+
 import static by.example.cashier.Application.currentBankCard;
+import static by.example.cashier.Application.locale;
 
 public class InfoCommand implements Command {
+
+    private final ConsoleService consoleService = ApplicationConfig.getConsoleService();
+    private final ResourceBundle bundle = ResourceBundle.getBundle("info", locale);
 
     @Override
     public void execute() {
@@ -16,7 +22,7 @@ public class InfoCommand implements Command {
         try {
             atmService.viewBalance();
         } catch (CardNotFoundException e) {
-            ConsoleService.writeMessage("Bank card is not register");
+            consoleService.writeMessage(bundle.getString("error.message"));
         }
     }
 }

@@ -10,19 +10,25 @@ import by.example.cashier.service.UnlockCardThread;
 import java.util.Locale;
 
 public class Application {
-    public static Locale locale = new Locale("en", "US");
+    public static Locale locale;
     public static BankCardDto currentBankCard = null;
 
     public static void main(String[] args) {
 
+        final ConsoleService consoleService = ApplicationConfig.getConsoleService();
+
         ApplicationConfig.initialize();
+
+        locale = consoleService.getLocale();
+
+        if (locale == null) System.exit(0);
 
         Thread unlockCardThread = new Thread(new UnlockCardThread(), "UnlockCardThread");
         unlockCardThread.start();
 
         Operation operation;
         do {
-            operation = ConsoleService.askOperation();
+            operation = consoleService.askOperation();
             CommandExecutor.execute(operation);
         } while (operation != Operation.EXIT);
 
