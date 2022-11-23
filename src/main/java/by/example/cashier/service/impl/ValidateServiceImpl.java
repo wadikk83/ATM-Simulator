@@ -33,6 +33,7 @@ public class ValidateServiceImpl implements ValidateService {
             return numberCard;
         }
     }
+
     @Override
     public Integer validatePositiveNumber() {
         Integer number = -1;
@@ -48,6 +49,7 @@ public class ValidateServiceImpl implements ValidateService {
         System.out.println(number);
         return number;
     }
+
     @Override
     public Integer validatePinNumber() {
         Integer pinNumber;

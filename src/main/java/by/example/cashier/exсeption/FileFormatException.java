@@ -1,6 +1,6 @@
 package by.example.cashier.exсeption;
 
-public class FileFormatException extends Exception{
+public class FileFormatException extends Exception {
     public FileFormatException() {
         super();
     }

@@ -1,9 +1,11 @@
 package by.example.cashier.service.impl;
 
+import by.example.cashier.config.ApplicationConfig;
 import by.example.cashier.exсeption.CardNotFoundException;
 import by.example.cashier.exсeption.DepositLimitException;
 import by.example.cashier.exсeption.NotEnoughMoneyException;
 import by.example.cashier.model.dto.BankCardDto;
+import by.example.cashier.repository.BankCardRepositoryDTO;
 import by.example.cashier.service.ATMService;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +17,8 @@ import java.math.BigDecimal;
 public class ATMServiceImpl implements ATMService {
 
     private static final int MAX_AMOUNT = 1_000_000;
+
+    private final BankCardRepositoryDTO bankCardRepository = ApplicationConfig.getBankCardRepository();
 
     private BigDecimal balanceATM;
 
@@ -44,6 +48,7 @@ public class ATMServiceImpl implements ATMService {
             throw new DepositLimitException("The amount of the transaction credited to the account should not exceed " + MAX_AMOUNT);
         }
         bankCard.setBalance(bankCard.getBalance().add(BigDecimal.valueOf(amount)));
+        bankCardRepository.save(bankCard);
         System.out.println("Сredited: " + amount);
     }
 
@@ -60,6 +65,7 @@ public class ATMServiceImpl implements ATMService {
         }
 
         bankCard.setBalance(bankCard.getBalance().subtract(BigDecimal.valueOf(amount)));
+        bankCardRepository.save(bankCard);
         System.out.println("Withdrawn from account -> " + amount);
         return true;
     }
